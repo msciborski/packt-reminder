@@ -4,14 +4,21 @@
   "description": "Server for packt-reminder",
   "main": "server.js",
   "scripts": {
-    "dev": "ts-watch --onSuccess \"node ./src/server.ts\""
+    "dev": "ts-node ./src/server.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
     "ts-node": "^8.1.0",
-    "tsc-watch": "^2.1.2",
     "typescript": "^3.4.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.13.6",
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "mongoose": "^5.5.2",
+    "tsc-watch": "^2.1.2"
   }
 }
