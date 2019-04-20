@@ -3,9 +3,6 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import 'dotenv/config';
 
-const { MONGO_CONNECTION_STRING } = process.env;
-mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
-
 class App {
   public app: express.Application;
   public port: number;
@@ -16,6 +13,7 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
+    this.connectToDatabase();
   }
 
   private initializeMiddlewares() {
@@ -26,6 +24,11 @@ class App {
     controllers.forEach(controller => {
       this.app.use('/', controller.router);
     });
+  }
+
+  private connectToDatabase() {
+    const { MONGO_CONNECTION_STRING } = process.env;
+    mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
   }
 
   public listen() {
