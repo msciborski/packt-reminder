@@ -1,0 +1,17 @@
+{
+  "name": "packt-reminder-server",
+  "version": "1.0.0",
+  "description": "Server for packt-reminder",
+  "main": "server.js",
+  "scripts": {
+    "dev": "ts-watch --onSuccess \"node ./src/server.ts\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "ts-node": "^8.1.0",
+    "tsc-watch": "^2.1.2",
+    "typescript": "^3.4.4"
+  }
+}
