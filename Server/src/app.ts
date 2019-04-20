@@ -1,13 +1,15 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
+import Controller from './interfaces/controller.interface';
+import errorHandling from './middlewares/error.middleware';
 import 'dotenv/config';
 
 class App {
   public app: express.Application;
   public port: number;
 
-  constructor(controllers, port) {
+  constructor(controllers : Controller[], port) {
     this.app = express();
     this.port = port;
 
@@ -24,6 +26,10 @@ class App {
     controllers.forEach(controller => {
       this.app.use('/', controller.router);
     });
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(errorHandling);
   }
 
   private connectToDatabase() {
