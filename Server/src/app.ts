@@ -14,9 +14,11 @@ class App {
     this.app = express();
     this.port = port;
 
+    this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
-    this.connectToDatabase();
+    this.initializeErrorHandling()
+
   }
 
   private initializeMiddlewares() {

@@ -7,9 +7,11 @@ import User from '../user/user.interface';
 import userModel from '../user/user.model';
 import HttpException from '../exceptions/httpException';
 import LoginDto from './authentication.dto';
+import TopicService from '../topic/topic.service';
 
 class AuthenticationService {
   public user = userModel;
+  public topicService = new TopicService();
 
   public async register(userData: RegisterUserDto) {
     if (await this.user.findOne({ email: userData.email })) {
@@ -18,17 +20,12 @@ class AuthenticationService {
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const user = await this.user.create({
-      ...userData,
+      email: userData.email,
       password: hashedPassword,
     });
-    user.password = undefined;
-    const tokenData = this.createToken(user);
-    const cookie = this.createCookie(tokenData);
-
-    return {
-      cookie,
-      user,
-    };
+    const userWithTopics = await this.topicService
+                      .addTopics(userData.topics, user._id);
+    return userWithTopics;
   }
 
   public async login(loginData: LoginDto) {
@@ -41,11 +38,10 @@ class AuthenticationService {
 
     if (isPasswordMath) {
       user.password = undefined;
-      const tokenData = this.createToken(user);
-      const cookie = this.createCookie(tokenData);
+      const tokenData: TokenData = this.createToken(user);
 
       return {
-        cookie,
+        tokenData,
         user,
       };
     } else {

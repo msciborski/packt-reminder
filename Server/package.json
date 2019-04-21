@@ -4,7 +4,8 @@
   "description": "Server for packt-reminder",
   "main": "server.js",
   "scripts": {
-    "dev": "ts-node ./src/server.ts"
+    "dev": "ts-node ./src/server.ts",
+    "build": "tsc build"
   },
   "author": "",
   "license": "ISC",

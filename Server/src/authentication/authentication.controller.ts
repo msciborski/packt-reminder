@@ -17,24 +17,18 @@ class AuthenticationController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}/register`, validationMiddleware(RegisterUserDto), this.registration);
+    this.router.post(`${this.path}/register`, this.registration);
     this.router.post(`${this.path}/login`, validationMiddleware(LoginDto), this.login);
-    this.router.post(`${this.path}/logout`, this.loggingOut);
-  }
+    }
 
   private registration = async (
     request: express.Request,
     response: express.Response,
     next: express.NextFunction) => {
       const userData: RegisterUserDto = request.body;
-
       try {
-        const {
-          cookie,
-          user,
-        } = await this.authenticationService.register(userData);
-        response.setHeader('Set-Cookie', [cookie]);
-        response.send(user);
+        await this.authenticationService.register(userData);
+        response.sendStatus(201);
       } catch (error) {
         next(error);
       }
@@ -49,20 +43,17 @@ class AuthenticationController implements Controller {
 
       try {
         const {
-          cookie,
+          tokenData,
           user,
         } = await this.authenticationService.login(loginData);
 
-        response.setHeader('Set-Cookie', [cookie]);
-        response.send(user);
+        response.send({
+          tokenData,
+          user,
+        });
       } catch (error) {
         next(error);
       }
-    }
-
-    private loggingOut = (request: express.Request, response: express.Response, next: express.NextFunction) => {
-      response.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
-      response.sendStatus(200);
     }
 }
 
