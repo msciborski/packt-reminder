@@ -10,7 +10,7 @@ class App {
   public app: express.Application;
   public port: number;
 
-  constructor(controllers : Controller[], port) {
+  constructor(controllers : Controller[], port: number) {
     this.app = express();
     this.port = port;
 
@@ -24,7 +24,7 @@ class App {
     this.app.use(cookieParser());
   }
 
-  private initializeControllers(controllers) {
+  private initializeControllers(controllers: Controller[]) {
     controllers.forEach(controller => {
       this.app.use('/', controller.router);
     });
