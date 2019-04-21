@@ -19,6 +19,8 @@
     "@types/node": "^11.13.6",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
+    "class-transformer": "^0.2.0",
+    "class-validator": "^0.9.1",
     "dotenv": "^7.0.0",
     "envalid": "^5.0.0",
     "mongoose": "^5.5.2",
