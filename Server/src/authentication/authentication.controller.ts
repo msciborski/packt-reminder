@@ -24,6 +24,7 @@ class AuthenticationController implements Controller {
   private initializeRoutes() {
     this.router.post(`${this.path}/register}`, validationMiddleware(RegisterUserDto), this.registration);
     this.router.post(`${this.path}/login`, validationMiddleware(LoginDto), this.login);
+    this.router.post(`${this.path}/logout`, this.loggingOut);
   }
 
   private registration = async (
@@ -68,6 +69,11 @@ class AuthenticationController implements Controller {
       } else {
         next(new HttpException(400, 'Wrong credentials'));
       }
+    }
+
+    private loggingOut = (request: express.Request, response: express.Response, next: express.NextFunction) => {
+      response.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
+      response.sendStatus(200);
     }
 
     private createToken(user: User) : TokenData {

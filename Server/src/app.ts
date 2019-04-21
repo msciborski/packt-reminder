@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 import * as mongoose from 'mongoose';
 import Controller from './interfaces/controller.interface';
 import errorHandling from './middlewares/error.middleware';
@@ -20,6 +21,7 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(bodyParser.json());
+    this.app.use(cookieParser());
   }
 
   private initializeControllers(controllers) {
