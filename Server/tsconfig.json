@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
+    "paths": { "*": ["types/*"] },
     "sourceMap": true,
     "target": "es2017",
-    "outDir": "/dist",
+    "outDir": "./dist",
     "baseUrl": "./src",
     "types": ["node"],
     "alwaysStrict": true,
+    "module": "commonjs",
     "noImplicitAny": true,
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },

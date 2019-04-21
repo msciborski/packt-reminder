@@ -1,5 +1,5 @@
 import * as express from 'express';
-import Controller from "../interfaces/controller.interface";
+import Controller from '../interfaces/controller.interface';
 import validationMiddleware from '../middlewares/validation.middleware';
 import RegisterUserDto from '../user/user.dto';
 import userModel from '../user/user.model';
