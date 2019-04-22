@@ -11,15 +11,17 @@ class TopicService {
     const unifiedTopics = topics.map(topic => topic.toLowerCase());
 
     const topicsAddedToDb: Topic[] = [];
-    unifiedTopics.forEach(async (topic) => {
+
+    for (const topic in unifiedTopics) {
       const addedTopic = await this.topic.create({ name: topic });
       topicsAddedToDb.push(addedTopic);
-    })
+    }
 
     const user = await this.user.findById(userId);
 
     if (user) {
-      user.topics.push(...topicsAddedToDb);
+      const topicIds = topicsAddedToDb.map(topic => topic.id);
+      user.topics.push(...topicIds);
       await user.save();
 
       return user;
