@@ -4,13 +4,14 @@ import HttpException from '../exceptions/httpException';
 function errorMiddleware(
   error: HttpException,
   request: Request,
-  response: Response) {
+  response: Response,
+  next: NextFunction) {
     const status = error.status || 500;
     const message = error.message || 'Unexcepted error occured';
 
     response
       .status(status)
-      .send({
+      .json({
         status,
         message,
       });

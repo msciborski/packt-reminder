@@ -28,3 +28,5 @@ async function authMiddleware(request: RequestWithUser, response: Response, next
     next(new HttpException(401, 'Bad credentials'));
   }
 }
+
+export default authMiddleware;
