@@ -24,7 +24,7 @@ class AuthenticationService {
       password: hashedPassword,
     });
     const userWithTopics = await this.topicService
-                      .addTopics(userData.topics, user._id);
+                      .addTopicsToUser(userData.topics, user._id);
     return userWithTopics;
   }
 

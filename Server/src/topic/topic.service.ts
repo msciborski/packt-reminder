@@ -7,7 +7,7 @@ class TopicService {
   public topic = topicModel;
   public user = userModel;
 
-  public async addTopics(topics: string[], userId: string) {
+  public async addTopicsToUser(topics: string[], userId: string) {
     const unifiedTopics = topics.map(topic => ({ name: topic.toLowerCase() }));
     const addedTopics = await this.topic.insertMany(unifiedTopics);
 
@@ -23,6 +23,20 @@ class TopicService {
       throw new HttpException(400, 'User not found.');
     }
   }
+
+  public async removeTopicsFromUser(topicId: string, userId: string) {
+    let user = await this.user.findById(userId);
+
+    if (user) {
+      user.topics = user.topics.filter(topic => topic._id !== topicId);
+      user = await user.save();
+      return await user.populate('topics').execPopulate();
+    } else {
+      throw new HttpException(400, 'User not found.');
+    }
+
+  }
+
 }
 
 export default TopicService;

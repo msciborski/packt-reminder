@@ -20,7 +20,8 @@ class UserController implements Controller {
   private initializeRoutes() {
     this.router
       .all(`${this.path}/*`, authMiddleware)
-      .post(`${this.path}/:id/topics`, this.addTopicsToUser);
+      .post(`${this.path}/:id/topics`, this.addTopicsToUser)
+      .delete(`${this.path}/:id/topics/:topicId`, this.removeTopic);
   }
 
   private addTopicsToUser = async (
@@ -32,10 +33,25 @@ class UserController implements Controller {
       if (id !== request.user.id) {
         next(new HttpException(401, 'Unathorized access'));
       } else {
-        const user = await this.topicService.addTopics(addTopicData.topics, id);
+        const user = await this.topicService.addTopicsToUser(addTopicData.topics, id);
         response.send(user);
       }
     }
+
+  private removeTopic = async (
+    request: RequestWithUser,
+    response: express.Response,
+    next: express.NextFunction
+  ) => {
+    const { id, topicId } = request.params;
+
+    if (id !== request.user.id) {
+      next(new HttpException(401, 'Unathorized access'));
+    } else {
+      const user = await this.topicService.removeTopicsFromUser(topicId, id);
+      response.send(user);
+    }
+  }
 }
 
 export default UserController;
