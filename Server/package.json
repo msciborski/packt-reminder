@@ -31,6 +31,7 @@
     "envalid": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.2",
+    "swagger-ui-express": "^4.0.2",
     "tsc-watch": "^2.1.2"
   }
 }

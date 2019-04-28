@@ -28,7 +28,8 @@ class TopicService {
     let user = await this.user.findById(userId);
 
     if (user) {
-      user.topics = user.topics.filter(topic => topic._id !== topicId);
+      const topicsWithoutRemoved = user.topics.filter(topic => topic._id != topicId);
+      user.topics = topicsWithoutRemoved;
       user = await user.save();
       return await user.populate('topics').execPopulate();
     } else {
