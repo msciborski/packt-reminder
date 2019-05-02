@@ -1,20 +1,31 @@
 import * as express from 'express';
 import Controller from '../interfaces/controller.interface';
-import userModel from './user.model';
-import TopicService from '../topic/topic.service';
+import UserService from './user.service';
+import HttpException from '../exceptions/httpException';
 
 class UserController implements Controller {
   public path = '/users';
   public router = express.Router();
-  private user = userModel;
-  private topicService = new TopicService();
+  private userService = new UserService();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
+    this.router.get(`${this.path}`, this.getUsers);
+  }
 
+  private getUsers = async (
+    request: express.Request,
+    response: express.Response,
+    next: express.NextFunction) => {
+    try {
+      const users = await this.userService.getUsers();
+      response.send(users);
+    } catch (err) {
+      next(new HttpException(500, err));
+    }
   }
 
 }
