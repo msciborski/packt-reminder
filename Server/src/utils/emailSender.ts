@@ -1,0 +1,51 @@
+import * as nodemailer from 'nodemailer';
+import { host } from 'envalid';
+
+const {
+  EMAIL_HOST,
+  EMAIL_PORT,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  EMAIL_ADDRESS,
+} = process.env;
+
+class EmailSender {
+  private host: string = EMAIL_HOST;
+  private port: number = parseInt(EMAIL_PORT);
+  private user: string = EMAIL_USER;
+  private pass: string = EMAIL_PASSWORD;
+
+  constructor(host: string, port: number, user: string, pass: string) {
+    this.host = host;
+    this.port = port;
+    this.user = user;
+    this.pass = pass;
+  }
+
+  private createTransporter = () => {
+    return nodemailer.createTransport({
+      host: this.host,
+      port: this.port,
+      secure: false,
+      auth: {
+        user: this.user,
+        pass: this.pass,
+      },
+      tls: { rejectUnauthorized: false }
+    });
+  }
+
+  public sendMail = async (to: string, message: string, from: string = EMAIL_ADDRESS, subject: string = 'Collect free book') => {
+    const transprter = this.createTransporter();
+    const mailOptions = {
+      from: from,
+      to: to,
+      subject: subject,
+      html: message,
+    };
+
+    await transprter.sendMail(mailOptions)
+  }
+}
+
+export default EmailSender;
