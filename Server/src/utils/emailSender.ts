@@ -2,36 +2,27 @@ import * as nodemailer from 'nodemailer';
 import { host } from 'envalid';
 
 const {
-  EMAIL_HOST,
-  EMAIL_PORT,
   EMAIL_USER,
   EMAIL_PASSWORD,
   EMAIL_ADDRESS,
 } = process.env;
 
 class EmailSender {
-  private host: string = EMAIL_HOST;
-  private port: number = parseInt(EMAIL_PORT);
   private user: string = EMAIL_USER;
   private pass: string = EMAIL_PASSWORD;
 
-  constructor(host: string, port: number, user: string, pass: string) {
-    this.host = host;
-    this.port = port;
+  constructor(user: string, pass: string) {
     this.user = user;
     this.pass = pass;
   }
 
   private createTransporter = () => {
     return nodemailer.createTransport({
-      host: this.host,
-      port: this.port,
-      secure: false,
+      service: 'gmail',
       auth: {
         user: this.user,
         pass: this.pass,
       },
-      tls: { rejectUnauthorized: false }
     });
   }
 
