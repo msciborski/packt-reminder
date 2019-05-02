@@ -11,10 +11,11 @@ class EmailSender {
   private user: string = EMAIL_USER;
   private pass: string = EMAIL_PASSWORD;
 
-  constructor(user: string, pass: string) {
+  constructor(user?: string, pass?: string) {
     this.user = user;
     this.pass = pass;
   }
+
 
   private createTransporter = () => {
     return nodemailer.createTransport({

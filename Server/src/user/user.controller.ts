@@ -14,6 +14,7 @@ class UserController implements Controller {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.getUsers);
+    this.router.post(`${this.path}/:id`, this.notifyUser);
   }
 
   private getUsers = async (
@@ -28,6 +29,19 @@ class UserController implements Controller {
     }
   }
 
+  private notifyUser = async (
+    request: express.Request,
+    response: express.Response,
+    next: express.NextFunction
+  ) => {
+    const { id } = request.params;
+    try {
+      await this.userService.notifyUser(id);
+      response.sendStatus(200);
+    } catch(err) {
+      next(new HttpException(500, err));
+    }
+  }
 }
 
 export default UserController;
