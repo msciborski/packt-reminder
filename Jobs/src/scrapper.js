@@ -1,8 +1,6 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 
-const url = 'https://www.packtpub.com/packt/offers/free-learning';
-
 const getBody = async (url) => {
   try {
     const browser = await puppeteer.launch();
@@ -23,12 +21,26 @@ const getCheerio = (body) => {
   return cheerio.load(body);
 }
 
+const getTitle = ($) => {
+  return $('.product__title').html();
+}
+
+const getDescription = ($) => {
+  const description = $('.product__right ul').children().map(function(i, el) {
+    return $(this).text();
+  }).get().join(' ');
+
+  return description;
+}
+
 exports.getBookInformation = async (url) => {
   const body = await getBody(url);
   const $ = getCheerio(body);
-  const title = $('.product__title').html();
+  const description = getDescription($);
+  const title = getTitle($);
 
   return {
     title,
+    description,
   };
 }
