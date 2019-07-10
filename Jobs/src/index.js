@@ -9,5 +9,11 @@ const notifyUsers = async () => {
 
 
 (async () => {
-  await userApi.getUsersWithTokens();
+  try {
+    const users = await userApi.getUsersWithTokens();
+    console.log(users);
+  } catch (error) {
+    console.log(error);
+  }
+
 })();
